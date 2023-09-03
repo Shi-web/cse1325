@@ -18,11 +18,16 @@ public enum Color
 	
 	public String toString()
 	{
-		return this.name() + " (0x" +
+			
+			String text = "(0x" +
            Integer.toHexString(r | 0x100).substring(1).toUpperCase() +
            Integer.toHexString(g | 0x100).substring(1).toUpperCase() +
            Integer.toHexString(b | 0x100).substring(1).toUpperCase() +
-           ") ";
-	
+           ")";
+           String colorCode = String.format("\033[38;2;%d;%d;%dm",r, g, b);
+		   String resetCode = "\033[0m";    
+		   return   this.name() + colorCode + text + resetCode;
 	}
+	
+
 }
