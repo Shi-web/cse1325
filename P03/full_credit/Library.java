@@ -29,7 +29,7 @@ public class Library{
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(name).append("\n");
+		sb.append("\n").append(name).append("\n").append("\n");
 		for ( int i = 0; i < publications.size();i++){
 			sb.append(i).append(". ").append(publications.get(i)).append("\n");
 		}
