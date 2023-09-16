@@ -16,18 +16,24 @@ public class Library{
 		this.publications = new ArrayList<>();
 		this.patrons = new ArrayList<>();
 	}
-	
+/**
+* Adds book/video in publication the array list
+*/	
 	public void addPublication(Publication publication)
 	{
 		publications.add(publication);	
 	}
-	
+/**
+* Adds patron in patron the array list
+*/	
 	public void addPatron(Patron patron)
 	{
 		patrons.add(patron);
 	
 	}
-	
+/**
+* Displays the list of patrons
+*/	
 	public String Menu()
 	{
 		StringBuilder pm = new StringBuilder();
@@ -38,7 +44,9 @@ public class Library{
 		return pm.toString();
 	}
 	
-	
+/**
+* Records the checkout book and patron
+*/	
 	public String checkout(int publicationIndex, int patronIndex)
 	{
 		if (publicationIndex >= 0 && publicationIndex < publications.size()){
@@ -49,9 +57,12 @@ public class Library{
 		else{
 			throw new IndexOutOfBoundsException("Invalid Publication Index");
 		}
-		//return data;
+		
 	}
-	
+
+/**
+* Returns string
+*/		
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();

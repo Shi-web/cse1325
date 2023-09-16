@@ -13,7 +13,10 @@ public class Publication{
 	private int copyright;
 	private Patron loanedTo;
 	private LocalDate dueDate;
-
+/**
+ * Constructs Pulication class
+ *
+ */
 	public Publication(String title, String author, int copyright){
 		this.title = title;
 		this.author = author;
@@ -24,14 +27,21 @@ public class Publication{
 		this.loanedTo = null;
 		this.dueDate = null;
 	}
-	
+/**
+ * Calculates the Due date 
+ *
+ */	
 	public String checkOut(Patron patron){
 		this.loanedTo = patron;
 		this.dueDate = LocalDate.now().plusDays(14);
 		String patrondata = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + dueDate+ "::";
 		return patrondata;
 	}
-	
+
+/**
+ * Returns string
+ *
+ */	
 	@Override
 	public String toString(){
 		String publicationData = "\"" + title +"\" by " + author + ", copyright " + copyright;
