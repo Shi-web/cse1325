@@ -6,7 +6,9 @@ import library.Patron;
 import library.Video;
 import library.InvalidRuntimeException;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 
 
@@ -38,10 +40,10 @@ public class LibraryManager{
 	public void openLibrary()
 	{
 		try{
-		Scanner scanner = new Scanner(System.in);
+				Scanner scanner = new Scanner(System.in);
 		 		System.out.print("Enter the filename to open the library data: ");
          		String filename = scanner.nextLine();
-         		try (BufferedWriter br = new BufferedWriter(new FileWriter(filename))){
+         		try (BufferedReader br = new BufferedReader(new FileReader(filename))){
          			library = new Library(br);
 			     }
 		}catch (IOException e){
@@ -51,38 +53,39 @@ public class LibraryManager{
 	}
 	public static void main(String[] args){
 		Library library = new Library("Khushi's Small Library");
+		LibraryManager manager = new LibraryManager(library);
 		
 		int choice;
 		try{
-			Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
-			Publication book2 = new Publication("Harry Potter and the Order of the Phoenix", "J.K Rowling", 												2002);
-			Publication book3 = new Publication("The Alchemist", "Paulo Coelho", 1990);
+			//Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
+			//Publication book2 = new Publication("Harry Potter and the Order of the Phoenix", "J.K Rowling", 												2002);
+			//Publication book3 = new Publication("The Alchemist", "Paulo Coelho", 1990);
 			
-			Video video1 = new Video("The Matrix", "The Wachowskis", 1999, 136);
-			Video video2 = new Video("Inception","Christopher Nolan",2010, 148);
-			Video video3 = new Video("Avatar"," James Cameron",2009, 162);
+			//Video video1 = new Video("The Matrix", "The Wachowskis", 1999, 136);
+			//Video video2 = new Video("Inception","Christopher Nolan",2010, 148);
+			//Video video3 = new Video("Avatar"," James Cameron",2009, 162);
 		
 		
 		
-			Patron patron1 = new Patron("Sunny Gauli", "sunnygauli@gmail.com");
-			Patron patron2 = new Patron("Elon Musk", "spaceX@hotmail.com"); 
-			Patron patron3 = new Patron("Aaron Sanchez", "axs2344@yahoo.com");
-			Patron patron4 = new Patron("Linda Vista", "leslie766@gmail.com");
+			//Patron patron1 = new Patron("Sunny Gauli", "sunnygauli@gmail.com");
+			//Patron patron2 = new Patron("Elon Musk", "spaceX@hotmail.com"); 
+			//Patron patron3 = new Patron("Aaron Sanchez", "axs2344@yahoo.com");
+			//Patron patron4 = new Patron("Linda Vista", "leslie766@gmail.com");
 		
 		
 		
-			library.addPatron(patron1);
-			library.addPatron(patron2);
-			library.addPatron(patron3);
-			library.addPatron(patron4);
+			//library.addPatron(patron1);
+			//library.addPatron(patron2);
+			//library.addPatron(patron3);
+			//library.addPatron(patron4);
 		
-			library.addPublication(book1);
-			library.addPublication(book2);
-			library.addPublication(book3);
+			//library.addPublication(book1);
+			//library.addPublication(book2);
+			//library.addPublication(book3);
 		
-			library.addPublication(video1);
-			library.addPublication(video2);
-			library.addPublication(video3);
+			//library.addPublication(video1);
+			//library.addPublication(video2);
+			//library.addPublication(video3);
 		
 		
 			
@@ -214,11 +217,11 @@ public class LibraryManager{
             		         break;
             		         
             		   case 8:
-            		   		openLibrary();
+            		   		manager.openLibrary();
             		   		break;
             		   	
             		   case 9:
-            		   		saveLibrary();
+            		   		manager.saveLibrary();
             		   		break;
             		   	
             		     
