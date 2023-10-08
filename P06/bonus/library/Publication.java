@@ -63,7 +63,7 @@ public class Publication{
 		
 	public Publication( BufferedReader br) throws IOException
 	{
-		this();
+		
 		
 		this.title = br.readLine();
 		this.author = br.readLine();
@@ -75,7 +75,7 @@ public class Publication{
 			this.dueDate = null;
 
 		} else{
-			this.loanedTo = br.readLine();
+			loanedTo = new Patron (br);
 			String dueDateLine =  br.readLine();
 			
 			this.dueDate = LocalDate.parse(dueDateLine);

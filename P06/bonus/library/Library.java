@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
 /**
 * Models a library containing various publications
@@ -56,16 +57,16 @@ public class Library{
 	
 	public Library(BufferedReader br) throws IOException
 	{
-		this();
+		
 		this.name = br.readLine();
 		int numPublications = Integer.parseInt(br.readLine());
 		 for (int i = 0; i < numPublications; i++) {
                 String type = br.readLine();
                 Publication publication;
                 if (type.equals("video")) {
-                    Video publication = new Video(br);
+                    publication = new Video(br);
                 } else {
-                    Publication publication = new Publication(br);
+                    publication = new Publication(br);
                 }
                 publications.add(publication);
             }

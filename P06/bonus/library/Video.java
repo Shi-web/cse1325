@@ -9,7 +9,7 @@ import java.time.Duration;
  *
  */
 public class Video extends Publication{
-	private Duration runtime;
+	private int runtime;
 /**
  * Contructs Video subclass
  *
@@ -17,7 +17,7 @@ public class Video extends Publication{
 	public Video(String title, String author, int copyright, int runtime )	{
 		super(title, author,copyright);
 		
-		if (runtime.isNegative() || runtime.isZero()){
+		if (runtime<=0){
 			throw new InvalidRuntimeException(title, runtime);
 		}
 		
@@ -29,7 +29,7 @@ public class Video extends Publication{
 	public void save(BufferedWriter bw) throws IOException
 	{
 		super.save(bw);
-		bw.write(runtime.toString() + '\n');
+		bw.write(""+runtime + '\n');
 		bw.flush();
 		
 		
@@ -39,7 +39,7 @@ public class Video extends Publication{
 	{
 		super(br);
 		String runtimeString = br.readLine(); // Assuming the runtime data was saved as a single line
-        this.runtime = Duration.parse(runtimeString);
+        this.runtime = Integer.valueOf(runtimeString);
 	
 	
 	}
@@ -53,10 +53,10 @@ public class Video extends Publication{
 	@Override 
 	public String toString(){
 		String message = super.toString();
-		//Duration videotime = Duration.ofMinutes(runtime);
-		//long hours = videotime.toHours();
-		//long remainingMinutes = videotime.toMinutes() % 60;
-		message += ", Runtime:" + runtime;//hours + "Hr " + remainingMinutes + "mins" ;
+		Duration videotime = Duration.ofMinutes(runtime);
+		long hours = videotime.toHours();
+		long remainingMinutes = videotime.toMinutes() % 60;
+		message += ", Runtime:" + hours + "Hr " + remainingMinutes + "mins" ;
 		
 		return message;
 	}
