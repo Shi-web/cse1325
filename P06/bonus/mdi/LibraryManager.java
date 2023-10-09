@@ -21,7 +21,7 @@ public class LibraryManager{
 	
 	}
 	
-	public void saveLibrary()
+	public void saveLibrary(Library l)
 	{
 		try{
 		
@@ -33,11 +33,12 @@ public class LibraryManager{
          	
          		}
          	} catch (IOException e){
-         		System.err.println("Error: COuld not write to the file");
+         		System.err.println("Error: Could not write to the file");
          	}
          		
 	}
-	public void openLibrary()
+	
+	public void openLibrary(Library l)
 	{
 		try{
 				Scanner scanner = new Scanner(System.in);
@@ -57,9 +58,9 @@ public class LibraryManager{
 		
 		int choice;
 		try{
-			//Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
-			//Publication book2 = new Publication("Harry Potter and the Order of the Phoenix", "J.K Rowling", 												2002);
-			//Publication book3 = new Publication("The Alchemist", "Paulo Coelho", 1990);
+	//		Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
+		//	Publication book2 = new Publication("Harry Potter and the Order of the Phoenix", "J.K Rowling", 												2002);
+		//	Publication book3 = new Publication("The Alchemist", "Paulo Coelho", 1990);
 			
 			//Video video1 = new Video("The Matrix", "The Wachowskis", 1999, 136);
 			//Video video2 = new Video("Inception","Christopher Nolan",2010, 148);
@@ -209,6 +210,7 @@ public class LibraryManager{
             		   
             		   case 6:
             		         System.out.println(library.Menu());
+            		        
             		         break;
             			
             				  
@@ -217,11 +219,11 @@ public class LibraryManager{
             		         break;
             		         
             		   case 8:
-            		   		manager.openLibrary();
+            		   		manager.openLibrary(library);
             		   		break;
             		   	
             		   case 9:
-            		   		manager.saveLibrary();
+            		   		manager.saveLibrary(library);
             		   		break;
             		   	
             		     
