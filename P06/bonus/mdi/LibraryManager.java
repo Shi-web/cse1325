@@ -60,7 +60,7 @@ public class LibraryManager{
 		
 		int choice;
 		try{
-	//		Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
+	    //  Publication book1 = new Publication("To Kill a Mockingbird", "Harper Lee", 1960);
 		//	Publication book2 = new Publication("Harry Potter and the Order of the Phoenix", "J.K Rowling", 												2002);
 		//	Publication book3 = new Publication("The Alchemist", "Paulo Coelho", 1990);
 			
@@ -93,8 +93,7 @@ public class LibraryManager{
 		
 			
 			
-			 StringBuilder currentPatron = new StringBuilder();
-			
+		
 			 Scanner scanner = new Scanner(System.in);
 			 do {
             		System.out.println("\nLibrary Menu:");
@@ -174,7 +173,8 @@ public class LibraryManager{
 			                 int patronIndex = scanner.nextInt();
 			                 scanner.nextLine();
 			
-			                // currentPatron.append(library.checkout(publicationIndex, patronIndex)).append("\n");
+			              
+			                 library.checkout(publicationIndex, patronIndex);
 			                 System.out.println(library);//currentPatron);
 			                 break;
             		   
@@ -192,21 +192,6 @@ public class LibraryManager{
 			                 
 			                 library.checkin(pubIndex,patIndex);//find the position of the string                   
 			              
-			                 
-			                 
-			                 //int start = currentPatron.indexOf(substring);
-			                 //int end = start + substring.length();// calculate the length of the string
-			                 // use string builder to delete 
-			                // if (start != -1){
-			                 //	currentPatron.delete(start, start+end);
-			                 //}
-			                 //else 
-			                 //{
-			                 	// System.out.println("Sentence not found.");
-			                 //}
-			                 
-			                 //String prevPatron = library.checkin(pubIndex, patIndex);
-			                 //System.out.println(prevPatron);
 			                 break;
 			              
             		   
@@ -217,7 +202,7 @@ public class LibraryManager{
             			
             				  
             		   case 7:
-            		         System.out.println(library );//+ currentPatron.toString());
+            		         System.out.println(library );
             		         break;
             		         
             		   case 8:
