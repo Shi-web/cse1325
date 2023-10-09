@@ -22,6 +22,21 @@ public class Library{
 		this.patrons = new ArrayList<>();
 	}
 	
+	/**
+* Adds book/video in publication the array list
+*/	
+	public void addPublication(Publication publication)
+	{
+		publications.add(publication);	
+	}
+/**
+* Adds patron in patron the array list
+*/	
+	public void addPatron(Patron patron)
+	{
+		patrons.add(patron);
+	}
+	
 	public void save(BufferedWriter bw) throws  IOException
 	{	
 		bw.write(name);
@@ -57,7 +72,8 @@ public class Library{
 	
 	public Library(BufferedReader br) throws IOException
 	{
-		
+		this.publications = new ArrayList<>();
+		this.patrons = new ArrayList<>();
 		this.name = br.readLine();
 		int numPublications = Integer.parseInt(br.readLine());
 		 for (int i = 0; i < numPublications; i++) {
@@ -68,37 +84,24 @@ public class Library{
                 } else {
                     publication = new Publication(br);
                 }
-                publications.add(publication);
+                addPublication(publication);
             }
 
             // (Bonus only) Read and reconstruct patrons if needed
             // Read the number of patrons
             int numPatrons = Integer.parseInt(br.readLine());
+            
 
             // Read and reconstruct the patrons
             for (int i = 0; i < numPatrons; i++) {
                 Patron patron = new Patron(br);
-                patrons.add(patron);
+                addPatron(patron);
             }
+            //System.out.println("Here is the size of the Patrons arraylist"+ patrons.size());
+            
 	}
 	
-	
-	
-/**
-* Adds book/video in publication the array list
-*/	
-	public void addPublication(Publication publication)
-	{
-		publications.add(publication);	
-	}
-/**
-* Adds patron in patron the array list
-*/	
-	public void addPatron(Patron patron)
-	{
-		patrons.add(patron);
-	
-	}
+		
 /**
 * Displays the list of patrons
 */	
@@ -106,9 +109,12 @@ public class Library{
 	{
 		StringBuilder pm = new StringBuilder();
 		pm.append("\n\n").append("Patrons\n");
+		//System.out.println("Here is the size" + patrons.size());
 		for (int i = 0; i < patrons.size();i++){
 			pm.append(i).append(". ").append(patrons.get(i)).append("\n");
+			//System.out.println(patrons.get(i));
 		}
+		//System.out.println("Here is the PAtrons"+ pm.toString());
 		return pm.toString();
 	}
 	

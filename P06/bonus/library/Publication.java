@@ -73,10 +73,12 @@ public class Publication{
 		if("checked in".equals(Checkedin)){
 			this.loanedTo = null;
 			this.dueDate = null;
+			this.checkout = false;
 
 		} else{
 			loanedTo = new Patron (br);
 			String dueDateLine =  br.readLine();
+			this.checkout = true;
 			
 			this.dueDate = LocalDate.parse(dueDateLine);
 		}
