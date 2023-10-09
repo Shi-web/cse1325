@@ -39,14 +39,15 @@ public class Publication{
 		 bw.write(title + '\n');
 	     bw.write(author + '\n');
 	     bw.write(""+ copyright + '\n');
+	     
 	    	 
-		 if (loanedTo == null) {
+		 if (checkout == false) {
         	bw.write("checked in\n");
-        	checkout = false;
+        	//checkout = false;
     	} else {
        	 // Publication is checked out
         	bw.write("checked out\n");
-            checkout = true;
+            //checkout = true;
             
         	// Write loanedTo object data
         	loanedTo.save(bw);
@@ -78,9 +79,9 @@ public class Publication{
 		} else{
 			loanedTo = new Patron (br);
 			String dueDateLine =  br.readLine();
-			this.checkout = true;
-			
+			this.checkout = true;	
 			this.dueDate = LocalDate.parse(dueDateLine);
+			
 		}
 		
 	}
@@ -91,30 +92,30 @@ public class Publication{
  * Calculates the Due date 
  *
  */	
-	public String checkOut(Patron patron){
+	public void checkOut(Patron patron){
 		if (!checkout){
 			this.checkout = true;
 			this.loanedTo = patron;
-			this.dueDate = LocalDate.now().plusDays(14);
-			String patrondata = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
-			return patrondata;
+			//this.dueDate = LocalDate.now().plusDays(14);
+			//String patrondata = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
+			//return patrondata;
 		}
 		else{
-			
-			String data = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
-			return data;
+				System.out.println("The publication/video is already checkout by someone else ");
+			//String data = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
+			//return data;
 		}
 	}
 	
-	public String checkIn(Patron patron){
-		if((checkout)&& (patron.equals(loanedTo))){
+	public void checkIn(Patron patron){
+		if(loanedTo.equals(patron)){
 				checkout = false;
-				String s = " is checked in successfully by "+ loanedTo;
+				System.out.println (" is checked in successfully by "+ loanedTo);
 				loanedTo = null;
-				return s;
+				//return s;
 		}
 		else{
-		 return "Publication was not checked out.";
+		 System.out.println("Publication was not checked out.");
 		}
 	}
 
@@ -124,8 +125,14 @@ public class Publication{
  */	
 	@Override
 	public String toString(){
-		String publicationData = "\"" + title +"\" by " + author + ", copyright " + copyright;
-			 
+		this.dueDate = LocalDate.now().plusDays(14);
+		String publicationData;
+		if (!checkout){
+			publicationData = "\"" + title +"\" by " + author + ", copyright " + copyright;
+		}
+		else {
+			 publicationData = "\"" + title +"\" by " + author + ", copyright " + copyright + " is loaned to " 									+ loanedTo + " until " + dueDate;
+		}	 
 		return publicationData;
 	}
 	

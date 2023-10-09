@@ -40,7 +40,9 @@ public class Patron{
  */	
 	@Override
 	public String toString(){
+	
 		String patronData = name+ " (" + email +")";
+		
 		return patronData; 
 	}
 }

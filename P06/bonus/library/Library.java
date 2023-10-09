@@ -97,6 +97,7 @@ public class Library{
                 Patron patron = new Patron(br);
                 addPatron(patron);
             }
+            
             //System.out.println("Here is the size of the Patrons arraylist"+ patrons.size());
             
 	}
@@ -121,12 +122,12 @@ public class Library{
 /**
 * Records the checkout book and patron
 */	
-	public String checkout(int publicationIndex, int patronIndex)
+	public void checkout(int publicationIndex, int patronIndex)
 	{
 		if (publicationIndex >= 0 && publicationIndex < publications.size()){
 			Publication publication = publications.get(publicationIndex);
-			String data = publication.checkOut(patrons.get(patronIndex));
-			return data;
+			//String data = publication.checkOut(patrons.get(patronIndex));
+			//return data;
 		}
 		else{
 			throw new IndexOutOfBoundsException("Invalid Publication Index");
@@ -138,7 +139,7 @@ public class Library{
 	/**
  * Records the check-in of a publication by a patron
  */
-	public String checkin(int publicationIndex, int patronIndex) {
+	public void checkin(int publicationIndex, int patronIndex) {
     	if (publicationIndex >= 0 && publicationIndex < publications.size() &&
         	patronIndex >= 0 && patronIndex < patrons.size()) {
         
@@ -146,10 +147,10 @@ public class Library{
         	Patron patron = patrons.get(patronIndex);
     
     	        // Perform the check-in
-    	        String s = publication.checkIn(patron);
+    	         publication.checkIn(patron);
             
     	        // Return a message indicating successful check-in
-    	     return  publications.get(publicationIndex)+ s;
+    	     //return  publications.get(publicationIndex);
     	    }
     	else {
     	    throw new IndexOutOfBoundsException("Invalid Publication or Patron Index");
