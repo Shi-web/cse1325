@@ -93,26 +93,22 @@ public class Publication{
  *
  */	
 	public void checkOut(Patron patron){
-		if (!checkout){
+		if (checkout == false){
 			this.checkout = true;
 			this.loanedTo = patron;
-			//this.dueDate = LocalDate.now().plusDays(14);
-			//String patrondata = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
-			//return patrondata;
 		}
 		else{
 				System.out.println("The publication/video is already checkout by someone else ");
-			//String data = "\n :: " + title +" by "+ author +" is Loaned to " + loanedTo + " until " + 								dueDate+ "::";
-			//return data;
 		}
 	}
 	
 	public void checkIn(Patron patron){
-		if(loanedTo.equals(patron)){
+	    
+		if(checkout==true){
 				checkout = false;
-				System.out.println (" is checked in successfully by "+ loanedTo);
+				System.out.println (title +" is checked in successfully by "+ loanedTo);
 				loanedTo = null;
-				//return s;
+				
 		}
 		else{
 		 System.out.println("Publication was not checked out.");

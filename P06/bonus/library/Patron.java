@@ -24,14 +24,13 @@ public class Patron{
         bw.write(name + '\n');
         bw.write(email + '\n');
         
-        // Flush the BufferedWriter to ensure the data is written immediately
-        //bw.flush();
+     
     }
     
     public Patron(BufferedReader br) throws IOException {
         // Read and restore the name and email fields from the BufferedReader
         this.name = br.readLine();
-        //System.out.println("Name of the patron"+ name);
+        
         this.email = br.readLine();
     }
 /**
