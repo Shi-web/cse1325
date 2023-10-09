@@ -38,7 +38,7 @@ public class LibraryManager{
          		
 	}
 	
-	public void openLibrary(Library l)
+	public Library openLibrary(Library l)
 	{
 		try{
 				Scanner scanner = new Scanner(System.in);
@@ -46,10 +46,12 @@ public class LibraryManager{
          		String filename = scanner.nextLine();
          		try (BufferedReader br = new BufferedReader(new FileReader(filename))){
          			library = new Library(br);
+         			return library;
 			     }
 		}catch (IOException e){
 			System.err.println("Error: Could not open the file ");
 		}
+		return null;
 	
 	}
 	public static void main(String[] args){
@@ -172,8 +174,8 @@ public class LibraryManager{
 			                 int patronIndex = scanner.nextInt();
 			                 scanner.nextLine();
 			
-			                 currentPatron.append(library.checkout(publicationIndex, patronIndex)).append("\n");
-			                 System.out.println(currentPatron);
+			                // currentPatron.append(library.checkout(publicationIndex, patronIndex)).append("\n");
+			                 System.out.println(library);//currentPatron);
 			                 break;
             		   
             		   
@@ -188,23 +190,23 @@ public class LibraryManager{
 			                 int patIndex = scanner.nextInt();
 			                 scanner.nextLine();
 			                 
-			                 String substring = library.checkout(pubIndex,patIndex);//find the position of the string                   
+			                 library.checkin(pubIndex,patIndex);//find the position of the string                   
 			              
 			                 
 			                 
-			                 int start = currentPatron.indexOf(substring);
-			                 int end = start + substring.length();// calculate the length of the string
+			                 //int start = currentPatron.indexOf(substring);
+			                 //int end = start + substring.length();// calculate the length of the string
 			                 // use string builder to delete 
-			                 if (start != -1){
-			                 	currentPatron.delete(start, start+end);
-			                 }
-			                 else 
-			                 {
-			                 	 System.out.println("Sentence not found.");
-			                 }
+			                // if (start != -1){
+			                 //	currentPatron.delete(start, start+end);
+			                 //}
+			                 //else 
+			                 //{
+			                 	// System.out.println("Sentence not found.");
+			                 //}
 			                 
-			                 String prevPatron = library.checkin(pubIndex, patIndex);
-			                 System.out.println(prevPatron);
+			                 //String prevPatron = library.checkin(pubIndex, patIndex);
+			                 //System.out.println(prevPatron);
 			                 break;
 			              
             		   
@@ -215,11 +217,11 @@ public class LibraryManager{
             			
             				  
             		   case 7:
-            		         System.out.println(library + currentPatron.toString());
+            		         System.out.println(library );//+ currentPatron.toString());
             		         break;
             		         
             		   case 8:
-            		   		manager.openLibrary(library);
+            		   		library = manager.openLibrary(library);
             		   		break;
             		   	
             		   case 9:
