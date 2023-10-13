@@ -2,7 +2,10 @@ import java.util.Arrays;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.SortedSet;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -45,7 +48,7 @@ public class WordSearch {
             System.err.println("Error: Invalid number of puzzles\n" + usage);
             System.exit(-1);
         }
-
+		
         // Load the puzzles!
         for(String puzzleName : args) {
             try(BufferedReader br = new BufferedReader(new FileReader(puzzleName))) {
@@ -60,10 +63,13 @@ public class WordSearch {
         if(puzzles.size() != args.size()) System.exit(-3);
         
         // Delete or duplicate puzzles to get the right number
-        if(numPuzzles < puzzles.size()) puzzles.subList(numPuzzles, puzzles.size()).clear();
+        if(numPuzzles < puzzles.size()){
+        	TreeSet<Puzzle> newPuzzles = new TreeSet<>(puzzles.headSet(puzzles.last()));
+        	puzzles = newPuzzles;
+        }
         else if (numPuzzles > puzzles.size()) {
             for(int i=puzzles.size(); i<numPuzzles; ++i)
-                puzzles.add(puzzles.get(i%puzzles.size()));
+                puzzles.add(puzzles.first());
         }
         NUM_PUZZLES = puzzles.size();
         
@@ -80,25 +86,32 @@ public class WordSearch {
         solve(0, 0, NUM_PUZZLES);
     }
 
-    public void solve(int threadID, int firstPuzzle, int lastPuzzlePlusOne) {
-        System.err.println("Thread " + threadID + ": " + firstPuzzle + "-" + (lastPuzzlePlusOne-1));
-        for(int i=firstPuzzle; i<lastPuzzlePlusOne; ++i) {
-            Puzzle p = puzzles.get(i);
-            Solver solver = new Solver(p);
-            for(String word : p.getWords()) {
-                try {
-                    Solution s = solver.solve(word);
-                    if(s == null) System.err.println("#### Failed to solve " + p.name() + " for '" + word + "'");
-                    else solutions.add(s);
-                } catch (Exception e) {
-                    System.err.println("#### Exception solving " + p.name() 
-                        + " for " + word + ": " + e.getMessage());
-                }
-            }
-        }
-        
-        // -------- All Puzzles Solved --------
-    }
+	public void solve(int threadID, int firstPuzzle, int lastPuzzlePlusOne) {
+    	System.err.println("Thread " + threadID + ": " + firstPuzzle + "-" + (lastPuzzlePlusOne-1));
+    	Iterator<Puzzle> iterator = puzzles.iterator();
+    	for (int i = 0; i < firstPuzzle; i++) {
+    	    iterator.next(); // Skip elements before the starting index
+    	}
+    	for (int i = firstPuzzle; i < lastPuzzlePlusOne; ++i) {
+    	    if (iterator.hasNext()) {
+    	        Puzzle p = iterator.next();
+    	        Solver solver = new Solver(p);
+    	        for (String word : p.getWords()) {
+    	            try {
+    	                Solution s = solver.solve(word);
+    	                if (s == null) 
+    	                {System.err.println("#### Failed to solve " + p.name() + " for '" + word + "'");}
+    	                else solutions.add(s);
+    	            } catch (Exception e) {
+    	                System.err.println("#### Exception solving " + p.name() + " for " + word + ": " + e.getMessage());
+	                }
+	            }
+	        }
+	    }
+
+    // -------- All Puzzles Solved --------
+	}
+
     public void printSolutions() {
         for(Solution s : solutions)
             System.out.println(s);
@@ -113,6 +126,6 @@ public class WordSearch {
     public final int NUM_PUZZLES;
     public final boolean verbose;
 
-    private List<Puzzle> puzzles = new ArrayList<>();;
-    private List<Solution> solutions = new ArrayList<>();
+    private TreeSet<Puzzle> puzzles = new TreeSet<>();;
+    private TreeSet<Solution> solutions = new TreeSet<>();
 }

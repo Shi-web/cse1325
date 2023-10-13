@@ -2,8 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class Puzzle {
+public class Puzzle implements Comparable<Puzzle> {
     public Puzzle(String name, BufferedReader br) throws IOException {
         this.name = name;
         
@@ -56,6 +58,11 @@ public class Puzzle {
     private String getLine(BufferedReader br) throws IOException {
         return br.readLine().replaceAll("\\s", ""); 
     }
+    
+     @Override
+    public int compareTo(Puzzle other) {
+        return this.name.compareTo(other.name);
+    }
 
     @Override
     public String toString() {
@@ -75,5 +82,5 @@ public class Puzzle {
 
     private String name;
     private ArrayList<String> board = new ArrayList<>();
-    private ArrayList<String> words = new ArrayList<>();
+    private TreeSet<String> words = new TreeSet<>();
 }
