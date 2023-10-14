@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.TreeSet;
+import java.util.Set;
+import java.util.Collections;
+import java.util.HashSet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -78,28 +81,97 @@ public class WordSearch {
         System.err.println ("\n" + NUM_PUZZLES + " puzzles with " 
             + NUM_THREADS + " threads"); // Show the # puzzles and threads
         // Solve all puzzles
-        solve(0, 0, NUM_PUZZLES);
+        List<Thread> threads = new ArrayList<>();
+        int puzzlesperThread = NUM_PUZZLES/NUM_THREADS;
+        int remainingPuzzles = NUM_PUZZLES%NUM_THREADS;
+        int startPuzzle =0;
+        int threadID=0;
+        int endPuzzle=0;
+        for( threadID =0; threadID < NUM_THREADS;threadID++){
+        	startPuzzle = threadID * puzzlesperThread;
+        	endPuzzle = startPuzzle + puzzlesperThread;
+        	if(threadID < remainingPuzzles){
+        	startPuzzle += threadID;
+        	endPuzzle += threadID + 1;
+        	}else{
+        		startPuzzle += remainingPuzzles;
+        		endPuzzle += remainingPuzzles;
+        	
+        	}
+        	solve(threadID, startPuzzle,endPuzzle);
+        
+        	
+        }
+        
+       /* if(threadID < remainingPuzzles){
+        	startPuzzle += threadID;
+        	endPuzzle += threadID + 1;
+        }else{
+        	startPuzzle += remainingPuzzles;
+        	endPuzzle += remainingPuzzles;
+        }
+        */ 
+        
+        final int finalThreadID = threadID;
+        final int finalStartPuzzle = startPuzzle;
+        final int finalEndPuzzle = endPuzzle;
+        
+        Thread thread = new Thread(() ->{
+         System.err.println("Thread " + finalThreadID + ": " + finalStartPuzzle + "-" + (finalEndPuzzle - 1));
+         solve(finalThreadID, finalStartPuzzle, finalEndPuzzle);
+        });
+
+        threads.add(thread);
+        thread.start();
+    
+
+    	// Wait for all threads to finish
+    	for (Thread t : threads) {
+    	    try {
+    	        thread.join();
+    	    } catch (InterruptedException e) {
+    	        System.err.println("Thread interrupted: " + e.getMessage());
+    	    }
+    	}
+
+	    // All threads have finished
+    	System.err.println("All threads have finished.");
+
+     
+        
     }
 
     public void solve(int threadID, int firstPuzzle, int lastPuzzlePlusOne) {
         System.err.println("Thread " + threadID + ": " + firstPuzzle + "-" + (lastPuzzlePlusOne-1));
-        for(int i=firstPuzzle; i<lastPuzzlePlusOne; ++i) {
+        Set<Puzzle> solvedPuzzles = Collections.synchronizedSet(new HashSet<>());
+       
+       synchronized (puzzles) {
+    for (int i = firstPuzzle; i < lastPuzzlePlusOne; ++i) {
+        if (i < puzzles.size()) {
             Puzzle p = puzzles.get(i);
             Solver solver = new Solver(p);
+            
             for(String word : p.getWords()) {
                 try {
                     Solution s = solver.solve(word);
                     if(s == null) System.err.println("#### Failed to solve " + p.name() + " for '" + word + "'");
-                    else solutions.add(s);
+                    else {
+                    synchronized (solutions){solutions.add(s);}
+                    synchronized (solvedPuzzles){solvedPuzzles.add(p);}
+                    }
                 } catch (Exception e) {
                     System.err.println("#### Exception solving " + p.name() 
                         + " for " + word + ": " + e.getMessage());
-                }
-            }
-        }
-        
-        // -------- All Puzzles Solved --------
+            
+        		}
+    		}
+		}	
+      
+         // -------- All Puzzles Solved --------
     }
+    }
+    }
+    
     public void printSolutions() {
         for(Solution s : solutions)
             System.out.println(s);
