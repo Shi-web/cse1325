@@ -64,12 +64,20 @@ public class WordSearch {
         
         // Delete or duplicate puzzles to get the right number
         if(numPuzzles < puzzles.size()){
-        	TreeSet<Puzzle> newPuzzles = new TreeSet<>(puzzles.headSet(puzzles.last()));
-        	puzzles = newPuzzles;
+        	int excessPuzzles = puzzles.size() - numPuzzles;
+        	for(int i = 0; i < excessPuzzles;i++){
+        		puzzles.pollFirst();	
+        	}
         }
         else if (numPuzzles > puzzles.size()) {
-            for(int i=puzzles.size(); i<numPuzzles; ++i)
-                puzzles.add(puzzles.first());
+        	int missingPuzzles = numPuzzles - puzzles.size();
+        	Iterator<Puzzle> iterator = puzzles.iterator();
+        	Puzzle firstPuzzle = iterator.next();
+        	
+            for(int i =0; i<missingPuzzles; i++){
+              
+                puzzles.add(firstPuzzle);
+               }
         }
         NUM_PUZZLES = puzzles.size();
         
@@ -126,6 +134,6 @@ public class WordSearch {
     public final int NUM_PUZZLES;
     public final boolean verbose;
 
-    private TreeSet<Puzzle> puzzles = new TreeSet<>();;
+    private TreeSet<Puzzle> puzzles = new TreeSet<>();
     private TreeSet<Solution> solutions = new TreeSet<>();
 }
