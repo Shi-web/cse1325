@@ -87,46 +87,40 @@ public class WordSearch {
         int startPuzzle =0;
         int threadID=0;
         int endPuzzle=0;
+        
+        //Thread thread = new Thread();
         for( threadID =0; threadID < NUM_THREADS;threadID++){
+        
         	startPuzzle = threadID * puzzlesperThread;
         	endPuzzle = startPuzzle + puzzlesperThread;
+        
         	if(threadID < remainingPuzzles){
-        	startPuzzle += threadID;
-        	endPuzzle += threadID + 1;
+        		startPuzzle += threadID;
+        		endPuzzle += threadID + 1;
         	}else{
         		startPuzzle += remainingPuzzles;
         		endPuzzle += remainingPuzzles;
         	
         	}
-        	solve(threadID, startPuzzle,endPuzzle);
+        	final int finalThreadID = threadID;
+        	final int finalStartPuzzle = startPuzzle;
+        	final int finalEndPuzzle = endPuzzle;
+        	Thread thread = new Thread(() ->{
+         					
+         						solve(finalThreadID, finalStartPuzzle, finalEndPuzzle);
+        					});
+
+    	    threads.add(thread);
+	        thread.start();
+    
         
         	
         }
         
-       /* if(threadID < remainingPuzzles){
-        	startPuzzle += threadID;
-        	endPuzzle += threadID + 1;
-        }else{
-        	startPuzzle += remainingPuzzles;
-        	endPuzzle += remainingPuzzles;
-        }
-        */ 
-        
-        final int finalThreadID = threadID;
-        final int finalStartPuzzle = startPuzzle;
-        final int finalEndPuzzle = endPuzzle;
-        
-        Thread thread = new Thread(() ->{
-         System.err.println("Thread " + finalThreadID + ": " + finalStartPuzzle + "-" + (finalEndPuzzle - 1));
-         solve(finalThreadID, finalStartPuzzle, finalEndPuzzle);
-        });
-
-        threads.add(thread);
-        thread.start();
-    
+     
 
     	// Wait for all threads to finish
-    	for (Thread t : threads) {
+    	for (Thread thread : threads) {
     	    try {
     	        thread.join();
     	    } catch (InterruptedException e) {
@@ -146,7 +140,7 @@ public class WordSearch {
         Set<Puzzle> solvedPuzzles = Collections.synchronizedSet(new HashSet<>());
        
        synchronized (puzzles) {
-    for (int i = firstPuzzle; i < lastPuzzlePlusOne; ++i) {
+   		for (int i = firstPuzzle; i < lastPuzzlePlusOne; ++i) {
         if (i < puzzles.size()) {
             Puzzle p = puzzles.get(i);
             Solver solver = new Solver(p);
@@ -186,6 +180,6 @@ public class WordSearch {
     public final int NUM_PUZZLES;
     public final boolean verbose;
 
-    private List<Puzzle> puzzles = new ArrayList<>();;
+    private List<Puzzle> puzzles = new ArrayList<>();
     private TreeSet<Solution> solutions = new TreeSet<>();
 }
